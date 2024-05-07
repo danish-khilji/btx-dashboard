@@ -20,6 +20,8 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import PaidIcon from '@mui/icons-material/Paid';
+import WalletIcon from '@mui/icons-material/Wallet';
+
 import LogoutIcon from '@mui/icons-material/Logout'; // Import the icon for the logout button
 
 import Grid from '@mui/material/Grid';
@@ -27,6 +29,7 @@ import Card from '../component/card';
 import Table from '../component/table';
 import NotificationComponent from './notification';
 import BridgeAndSwapGasFee from "./BridgeSwapGassFee"
+import Wallet from './Wallet';
 import { useNavigate } from 'react-router-dom';
 import wave from '../assets/wave.jpg'
 const drawerWidth = 240;
@@ -130,7 +133,8 @@ export default function Dashboard() {
                 return <NotificationComponent />;
             case 'Gas Fee':
                 return <BridgeAndSwapGasFee />;
-
+            case 'Wallet':
+                return <Wallet />;
             default:
                 return <><Card /><Table /></>;
         }
@@ -184,7 +188,7 @@ export default function Dashboard() {
                 </DrawerHeader>
                 {open && <Divider />}
                 <List>
-                    {['Dashboard', 'Notification', "Gas Fee"].map((text, index) => (
+                    {['Dashboard', 'Notification', "Gas Fee", "Wallet"].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
@@ -205,6 +209,7 @@ export default function Dashboard() {
                                     {text === 'Dashboard' && <DashboardIcon />}
                                     {text === 'Notification' && <NotificationsIcon />}
                                     {text === 'Gas Fee' && <PaidIcon />}
+                                    {text === 'Wallet' && <WalletIcon />}
 
                                 </ListItemIcon>
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
