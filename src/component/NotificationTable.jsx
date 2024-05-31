@@ -28,7 +28,7 @@ function AddNotificationDialog(props) {
             data.append('image', formData.image);
         }
         try {
-            fetch('https://blockchain.eastasia.cloudapp.azure.com/add_notification', {
+            fetch('https://web3devsolutions.com:8443/add_notification', {
                 method: 'POST',
                 body: data
             })
@@ -185,7 +185,7 @@ function Table({ headers, rows, handleUpdateRow, handleDeleteRow }) {
 
     const handleDelete = (id) => {
         try {
-            fetch(`https://blockchain.eastasia.cloudapp.azure.com/delete_notification?id=${id}`, {
+            fetch(`https://web3devsolutions.com:8443/delete_notification?id=${id}`, {
                 method: 'DELETE',
             })
                 .then(response => {
@@ -235,7 +235,7 @@ function Table({ headers, rows, handleUpdateRow, handleDeleteRow }) {
             </div>
             <div>
                 <table className='mt-5 px-16 w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
-                    <thead className="bg-gray-900">
+                    <thead className="bg-[#1976D2]">
                         <tr className="text-white text-left">
                             {headers?.map(header => (
                                 <th key={header} className="font-semibold text-sm uppercase px-6 py-4">

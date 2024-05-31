@@ -25,7 +25,7 @@ function EditFormDialog({ initialData, updateTableData }) {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        fetch('https://blockchain.eastasia.cloudapp.azure.com/update-gas-fee', {
+        fetch('https://web3devsolutions.com:8443/update-gas-fee', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -128,7 +128,7 @@ function GasFeeTable({ headers, rows }) {
             <div>
 
                 <table className='mt-5 px-16 w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
-                    <thead className="bg-gray-900">
+                    <thead className="bg-[#1976D2]">
                         <tr className="text-white text-left">
                             {headers?.map(header => (
                                 <th key={header} className="font-semibold text-sm uppercase px-6 py-4">

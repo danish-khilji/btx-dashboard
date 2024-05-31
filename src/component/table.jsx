@@ -8,7 +8,7 @@ function Table() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('https://blockchain.eastasia.cloudapp.azure.com/get_channel')
+        fetch('https://web3devsolutions.com:8443/get_channel')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -27,7 +27,7 @@ function Table() {
 
     const handleToggle = (id, status) => {
         let newStatus = !status;
-        fetch('https://blockchain.eastasia.cloudapp.azure.com/update_channel', {
+        fetch('https://web3devsolutions.com:8443/update_channel', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,54 +65,10 @@ function Table() {
 
     const headers = ["Name", "Status"];
 
-    const rows = [
-        {
-            avatar: "https://i.imgur.com/siKnZP2.jpg",
-            name: "Mira Rodeo",
-            email: "mirarodeo23@mail.com",
-            role: "Software Developer",
-            department: "Development",
-            status: true,
-            action: "Edit"
-        }, {
-            avatar: "https://i.imgur.com/siKnZP2.jpg",
-            name: "Mira Rodeo",
-            email: "mirarodeo23@mail.com",
-            role: "Software Developer",
-            department: "Development",
-            status: true,
-            action: "Edit"
-        }, {
-            avatar: "https://i.imgur.com/siKnZP2.jpg",
-            name: "Mira Rodeo",
-            email: "mirarodeo23@mail.com",
-            role: "Software Developer",
-            department: "Development",
-            status: false,
-            action: "Edit"
-        }, {
-            avatar: "https://i.imgur.com/siKnZP2.jpg",
-            name: "Mira Rodeo",
-            email: "mirarodeo23@mail.com",
-            role: "Software Developer",
-            department: "Development",
-            status: true,
-            action: "Edit"
-        }, {
-            avatar: "https://i.imgur.com/siKnZP2.jpg",
-            name: "Mira Rodeo",
-            email: "mirarodeo23@mail.com",
-            role: "Software Developer",
-            department: "Development",
-            status: false,
-            action: "Edit"
-        },
-    ];
-
     return (
         <div style={{ paddingInline: 'inherit' }} className='overflow-x-auto w-full'>
             <table className=' px-16 w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
-                <thead className="bg-gray-900">
+                <thead className="bg-[#1976D2]">
                     <tr className="text-white text-left">
                         {headers.map(header => (
                             <th key={header} className="font-semibold text-sm uppercase px-6 py-4">

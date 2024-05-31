@@ -31,7 +31,7 @@ const Login = () => {
         e.preventDefault();
         try {
 
-            fetch('https://blockchain.eastasia.cloudapp.azure.com/admin-login', {
+            fetch('https://web3devsolutions.com:8443/admin-login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

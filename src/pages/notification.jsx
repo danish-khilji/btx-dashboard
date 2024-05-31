@@ -9,7 +9,7 @@ const Notification = () => {
     const headers = ["Name", "message", "Image", "date & time", "delete"];
 
     useEffect(() => {
-        fetch('https://blockchain.eastasia.cloudapp.azure.com/get_notifications')
+        fetch('https://web3devsolutions.com:8443/get_notifications')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');

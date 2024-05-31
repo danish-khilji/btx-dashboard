@@ -215,8 +215,6 @@ export default function Dashboard() {
                                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                             </ListItemButton>
                         </ListItem>
-
-
                     ))}
                     <Divider />
                     <ListItem disablePadding sx={{ display: 'block' }}>

@@ -9,7 +9,7 @@ const BridgeAndSwapGasFee = () => {
 
 
     useEffect(() => {
-        fetch('https://blockchain.eastasia.cloudapp.azure.com/gas-fee')
+        fetch('https://web3devsolutions.com:8443/gas-fee')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
