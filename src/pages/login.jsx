@@ -1,22 +1,25 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
+    const baseurl = import.meta.env.VITE_BASE_URL;
+    const port = import.meta.env.VITE_PORT;
+    const url = `${baseurl}:${port}/admin-login`;
+
     const [formData, setFormData] = React.useState({
         email: "",
         password: "",
     });
 
-    const navigate = useNavigate()
-    React.useEffect(() => {
-        const user = localStorage.getItem("user")
-        const token = localStorage.getItem("token")
-        if (user && token) {
-            navigate("/")
-        }
+    const navigate = useNavigate();
 
-    },)
+    React.useEffect(() => {
+        const user = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
+        if (user && token) {
+            navigate("/");
+        }
+    }, [navigate]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,41 +29,37 @@ const Login = () => {
         }));
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-
-            fetch('https://web3devsolutions.com:8443/admin-login', {
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData)
             })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(responseData => {
-                    if (responseData.success) {
-                        localStorage.setItem("user", JSON.stringify(responseData.user))
-                        localStorage.setItem("token", responseData.token)
-                        navigate("/")
-                    } else {
-                        alert("Invalid email or password")
-                        return undefined;
-                    }
-                })
-                .catch(error => {
-                    alert("Invalid email or password")
-                    console.log("Error", error);
-                });
-
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(responseData => {
+                if (responseData.success) {
+                    localStorage.setItem("user", JSON.stringify(responseData.user));
+                    localStorage.setItem("token", responseData.token);
+                    navigate("/");
+                } else {
+                    alert("Invalid email or password");
+                }
+            })
+            .catch(error => {
+                alert("Invalid email or password");
+                console.log("Error", error);
+            });
         } catch (error) {
-            console.error("Error editing profile:", error);
+            console.error("Error logging in:", error);
         }
     };
 
@@ -74,18 +73,18 @@ const Login = () => {
                     <label className="text-sm text-white ml-2">Email</label>
                     <input
                         name="email"
-                        onChange={(e) => handleChange(e)}
-                        className=" p-2 rounded-md m-2 outline-none"
+                        onChange={handleChange}
+                        className="p-2 rounded-md m-2 outline-none"
                     />
                     <label className="text-sm text-white ml-2">Password</label>
                     <input
                         type="password"
                         name="password"
-                        onChange={(e) => handleChange(e)}
-                        className=" p-2 rounded-md m-2 outline-none"
+                        onChange={handleChange}
+                        className="p-2 rounded-md m-2 outline-none"
                     />
-                    <div className="text-left mb-4 ml-2 mt-5 ">
-                        <button variant="default">Login</button>
+                    <div className="text-left mb-4 ml-2 mt-5">
+                        <button type="submit" className="p-2 bg-blue-500 text-white rounded-md">Login</button>
                         {/* <p className="text-sm font-semibold float-right text-white mt-2">
                             Forget password? <a href="/reset">
                                 Reset here

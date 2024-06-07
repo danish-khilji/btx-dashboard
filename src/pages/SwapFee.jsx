@@ -1,16 +1,15 @@
-
 import React, { useEffect, useState } from "react";
-import GasFeeTable from "../component/gasFeeTable";
+import SwapFeeTable from "../component/swapFeeTable";
 
 
-
-const BridgeAndSwapGasFee = () => {
-    const [formData, setFormData] = useState({ name: '', message: '', image: null });
+const SwapFee = () => {
+    // const [formData, setFormData] = useState({ name: '', message: '', image: null });
     const [rows, setRows] = useState([]);
     const baseurl = import.meta.env.VITE_BASE_URL
     const port = import.meta.env.VITE_PORT
 
-    const url = `${baseurl}:${port}/gas-fee`
+    const url = `${baseurl}:${port}/swap-fee`
+
     const headers = ["type", "value", "edit"];
 
 
@@ -35,10 +34,10 @@ const BridgeAndSwapGasFee = () => {
 
     return (
         <>
-            <GasFeeTable rows={rows} headers={headers} />
+            <SwapFeeTable rows={rows} headers={headers} />
         </>
     );
 };
 
-export default React.memo(BridgeAndSwapGasFee);
+export default React.memo(SwapFee);
 

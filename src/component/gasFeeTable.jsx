@@ -1,13 +1,18 @@
+
 import { useEffect, useState } from 'react';
 
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-
 
 
 function EditFormDialog({ initialData, updateTableData }) {
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({ type: '', value: '' });
 
+
+    const baseurl = import.meta.env.VITE_BASE_URL
+        const port = import.meta.env.VITE_PORT
+
+        const url = `${baseurl}:${port}/update-gas-fee`
     const handleOpen = () => {
         setOpen(true);
         setFormData({ id: initialData.id, type: initialData.type, value: initialData.value });
@@ -24,8 +29,9 @@ function EditFormDialog({ initialData, updateTableData }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+    
 
-        fetch('https://web3devsolutions.com:8443/update-gas-fee', {
+        fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

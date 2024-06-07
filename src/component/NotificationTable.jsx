@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 
 import {
@@ -20,7 +21,12 @@ function AddNotificationDialog(props) {
     };
 
 
+
     const addNotification = async (formData) => {
+        const baseurl = import.meta.env.VITE_BASE_URL
+        const port = import.meta.env.VITE_PORT
+
+        const url = `${baseurl}:${port}/add_notification`
         const data = new FormData();
         data.append('name', formData.name);
         data.append('message', formData.message);
@@ -28,7 +34,7 @@ function AddNotificationDialog(props) {
             data.append('image', formData.image);
         }
         try {
-            fetch('https://web3devsolutions.com:8443/add_notification', {
+            fetch(url, {
                 method: 'POST',
                 body: data
             })
@@ -184,8 +190,13 @@ function Table({ headers, rows, handleUpdateRow, handleDeleteRow }) {
     };
 
     const handleDelete = (id) => {
+
+
+        const url = `${baseurl}:${port}/delete_notification?id=${id}`
+
+
         try {
-            fetch(`https://web3devsolutions.com:8443/delete_notification?id=${id}`, {
+            fetch(url, {
                 method: 'DELETE',
             })
                 .then(response => {

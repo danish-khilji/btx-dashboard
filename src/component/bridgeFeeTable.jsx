@@ -1,28 +1,21 @@
 
 import { useEffect, useState } from 'react';
 
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField } from '@mui/material';
-
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 
 function EditFormDialog({ initialData, updateTableData }) {
-
-
-
     const [open, setOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        id: "",
-        bitcoin: '',
-        solana: '',
-        evm: '',
-        doge: ''
-    });
+    const [formData, setFormData] = useState({ type: '', value: '' });
 
 
+    const baseurl = import.meta.env.VITE_BASE_URL
+        const port = import.meta.env.VITE_PORT
+
+        const url = `${baseurl}:${port}/update-bridge-fee`
     const handleOpen = () => {
         setOpen(true);
-        console.log(initialData)
-        setFormData({ id: initialData._id, bitcoin: initialData.bitcoin, solana: initialData.solana, evm: initialData.evm, doge: initialData.doge });
+        setFormData({ id: initialData.id, type: initialData.type, value: initialData.value });
     };
 
     const handleClose = () => {
@@ -35,11 +28,8 @@ function EditFormDialog({ initialData, updateTableData }) {
     };
 
     const handleSubmit = (e) => {
-        const baseurl = import.meta.env.VITE_BASE_URL
-        const port = import.meta.env.VITE_PORT
-
-        const url = `${baseurl}:${port}/update-wallet-address`
         e.preventDefault();
+    
 
         fetch(url, {
             method: 'PUT',
@@ -48,11 +38,8 @@ function EditFormDialog({ initialData, updateTableData }) {
             },
             body: JSON.stringify({
                 id: formData.id,
-
-                bitcoin: formData.bitcoin,
-                solana: formData.solana,
-                evm: formData.evm,
-                doge: formData.doge
+                type: formData.type,
+                value: formData.value
             })
         })
             .then(response => {
@@ -82,40 +69,25 @@ function EditFormDialog({ initialData, updateTableData }) {
                 <DialogTitle id="edit-dialog-title">Edit Form</DialogTitle>
                 <DialogContent>
                     <form onSubmit={handleSubmit}>
+                        <FormControl fullWidth sx={{ margin: '8px 0' }}>
+                            <InputLabel id="type-label">Type</InputLabel>
+                            <Select
+                                labelId="type-label"
+                                id="type-select"
+                                name="type"
+                                value={formData.type}
+                                label="Type"
+                                onChange={handleChange}
+                                required
+                            >
+                                <MenuItem value="flat">Flat</MenuItem>
+                                <MenuItem value="percentage">Percentage</MenuItem>
+                            </Select>
+                        </FormControl>
                         <TextField
-                            label="BITCOIN"
-                            name="bitcoin"
-                            value={formData.bitcoin}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            variant="outlined"
-                            sx={{ margin: '8px 0' }}
-                        />
-                        <TextField
-                            label="SOLANA"
-                            name="solana"
-                            value={formData.solana}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            variant="outlined"
-                            sx={{ margin: '8px 0' }}
-                        />
-                        <TextField
-                            label="EVM"
-                            name="evm"
-                            value={formData.evm}
-                            onChange={handleChange}
-                            fullWidth
-                            required
-                            variant="outlined"
-                            sx={{ margin: '8px 0' }}
-                        />
-                        <TextField
-                            label="DOGE"
-                            name="doge"
-                            value={formData.doge}
+                            label="Value"
+                            name="value"
+                            value={formData.value}
                             onChange={handleChange}
                             fullWidth
                             required
@@ -135,7 +107,7 @@ function EditFormDialog({ initialData, updateTableData }) {
 
 
 
-function GasFeeTable({ headers, rows }) {
+function BridgeFeeTable({ headers, rows }) {
 
     const [tableData, setTableData] = useState([]);
 
@@ -146,12 +118,7 @@ function GasFeeTable({ headers, rows }) {
     const updateTableRow = (updatedRowData) => {
         const newData = tableData.map(row => {
             if (row._id === updatedRowData._id) {
-                return {
-                    ...row, bitcoin: updatedRowData.bitcoin,
-                    solana: updatedRowData.solana,
-                    evm: updatedRowData.evm,
-                    doge: updatedRowData.doge,
-                };
+                return { ...row, type: updatedRowData.type, value: updatedRowData.value };
             }
             return row;
         });
@@ -163,7 +130,9 @@ function GasFeeTable({ headers, rows }) {
 
     return (
         <div style={{ paddingInline: 'inherit' }} className='overflow-x-auto w-full'>
-
+            <div>
+                <p className='font-bold text-2xl'>Bridge Fee</p>
+            </div>
             <div>
 
                 <table className='mt-5 px-16 w-full whitespace-nowrap rounded-lg bg-white divide-y divide-gray-300 overflow-hidden'>
@@ -180,31 +149,21 @@ function GasFeeTable({ headers, rows }) {
                         {tableData?.map((row, index) => (
                             <tr key={index}>
 
-                                <td className="px-6 py-4">
-                                    <div>
-                                        <p> {row.bitcoin} </p>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div>
-                                        <p> {row.solana} </p>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div>
-                                        <p> {row.evm} </p>
-                                    </div>
-                                </td>
-                                <td className="px-6 py-4">
-                                    <div>
-                                        <p> {row.doge} </p>
-                                    </div>
-                                </td>
 
                                 <td className="px-6 py-4">
                                     <div>
+                                        <p>{row.type}</p>
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <div>
+                                        <p> {row.value} </p>
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4">
+                                    <div>
                                         <EditFormDialog
-                                            initialData={{ ...row }}
+                                            initialData={{ id: row._id, value: row.value, type: row.type }}
                                             updateTableData={updateTableRow}
 
                                         />
@@ -222,5 +181,5 @@ function GasFeeTable({ headers, rows }) {
     );
 }
 
-export default GasFeeTable;
+export default BridgeFeeTable;
 

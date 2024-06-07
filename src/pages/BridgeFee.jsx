@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from "react";
-import Table from "../component/NotificationTable";
+import BridgeFeeTable from "../component/bridgeFeeTable";
 
 
-const Notification = () => {
+const BridgeFee = () => {
     const baseurl = import.meta.env.VITE_BASE_URL
     const port = import.meta.env.VITE_PORT
 
-
-    const url = `${baseurl}:${port}/get_notifications`
-    const [formData, setFormData] = useState({ name: '', message: '', image: null });
+    const url = `${baseurl}:${port}/bridge-fee`
+    // const [formData, setFormData] = useState({ name: '', message: '', image: null });
     const [rows, setRows] = useState([]);
 
-    const headers = ["Name", "message", "Image", "date & time", "delete"];
+    const headers = ["type", "value", "edit"];
+
 
     useEffect(() => {
         fetch(url)
@@ -32,22 +32,13 @@ const Notification = () => {
             });
     }, []);
 
-    const handleUpdateRow = (newRow) => {
-        setRows(currentRows => [newRow, ...currentRows]);
-    }
-
-    const handleDeleteRow = (id) => {
-        const updatedRows = rows.filter(row => row._id !== id);
-        console.log(updatedRows)
-        setRows(updatedRows);
-    }
 
     return (
         <>
-            <Table rows={rows} headers={headers} handleUpdateRow={handleUpdateRow} handleDeleteRow={handleDeleteRow} />
+            <BridgeFeeTable rows={rows} headers={headers} />
         </>
     );
 };
 
-export default React.memo(Notification);
+export default React.memo(BridgeFee);
 

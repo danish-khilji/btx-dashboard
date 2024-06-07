@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 
 function Table() {
-
     const [data, setData] = useState(null);
     const [tableData, setTableData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const baseurl = import.meta.env.VITE_BASE_URL;
+    const port = import.meta.env.VITE_PORT;
+    const url = `${baseurl}:${port}/get_channel`;
+
     useEffect(() => {
-        fetch('https://web3devsolutions.com:8443/get_channel')
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -23,11 +26,12 @@ function Table() {
                 setError(error.message);
                 setLoading(false);
             });
-    }, []);
+    }, [url]);
 
     const handleToggle = (id, status) => {
+        const toggleUrl = `${baseurl}:${port}/update_channel`;
         let newStatus = !status;
-        fetch('https://web3devsolutions.com:8443/update_channel', {
+        fetch(toggleUrl, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,8 +66,10 @@ function Table() {
             });
     };
 
-
     const headers = ["Name", "Status"];
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <div style={{ paddingInline: 'inherit' }} className='overflow-x-auto w-full'>
@@ -91,15 +97,13 @@ function Table() {
                                     </div>
                                 </div>
                             </td>
-
                             <td className="px-6 py-4">
-                                <label class="inline-flex items-center me-5 cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked={row.status || false}
+                                <label className="inline-flex items-center mr-5 cursor-pointer">
+                                    <input type="checkbox" value="" className="sr-only peer" checked={row.status || false}
                                         onChange={() => handleToggle(row._id, row.status)}
                                     />
-                                    <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"></div>
+                                    <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-red-300 dark:peer-focus:ring-red-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-red-600"></div>
                                 </label>
-
                             </td>
                         </tr>
                     ))}
@@ -110,4 +114,3 @@ function Table() {
 }
 
 export default Table;
-

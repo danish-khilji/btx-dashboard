@@ -32,6 +32,8 @@ import BridgeAndSwapGasFee from "./BridgeSwapGassFee"
 import Wallet from './Wallet';
 import { useNavigate } from 'react-router-dom';
 import wave from '../assets/wave.jpg'
+import SwapFee from './SwapFee';
+import BridgeFee from './BridgeFee';
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -131,8 +133,10 @@ export default function Dashboard() {
                 return <><Card /><Table /></>;
             case 'Notification':
                 return <NotificationComponent />;
-            case 'Gas Fee':
-                return <BridgeAndSwapGasFee />;
+            case 'Bridge Fee':
+                return <BridgeFee />;
+            case 'Swap Fee':
+                return <SwapFee />;
             case 'Wallet':
                 return <Wallet />;
             default:
@@ -188,7 +192,7 @@ export default function Dashboard() {
                 </DrawerHeader>
                 {open && <Divider />}
                 <List>
-                    {['Dashboard', 'Notification', "Gas Fee", "Wallet"].map((text, index) => (
+                    {['Dashboard', 'Notification', "Bridge Fee","Swap Fee", "Wallet"].map((text, index) => (
                         <ListItem key={text} disablePadding sx={{ display: 'block' }}>
                             <ListItemButton
                                 sx={{
@@ -208,7 +212,8 @@ export default function Dashboard() {
                                 >
                                     {text === 'Dashboard' && <DashboardIcon />}
                                     {text === 'Notification' && <NotificationsIcon />}
-                                    {text === 'Gas Fee' && <PaidIcon />}
+                                    {text === 'Bridge Fee' && <PaidIcon />}
+                                    {text === 'Swap Fee' && <PaidIcon />}
                                     {text === 'Wallet' && <WalletIcon />}
 
                                 </ListItemIcon>

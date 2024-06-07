@@ -1,14 +1,20 @@
+
 import React, { useEffect, useState } from "react";
 import WalletTable from "../component/WalletTable";
 
+
 const Wallet = () => {
+    const baseurl = import.meta.env.VITE_BASE_URL
+    const port = import.meta.env.VITE_PORT
+
+    const url = `${baseurl}:${port}/wallet-address-list`
     const [rows, setRows] = useState([]);
 
     const headers = ["Bitcoin", "Solana", "EVM", "doge", "edit"];
 
 
     useEffect(() => {
-        fetch('https://web3devsolutions.com:8443/wallet-address-list')
+        fetch(url)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
